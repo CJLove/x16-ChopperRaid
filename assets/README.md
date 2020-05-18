@@ -15,3 +15,7 @@
 
 - tileset.piskel - Piskel file for tileset (128x64,4bpp)
 - tileset.png - tileset as png file
+- tileset.tsx - Tiled tileset based on tileset.png
+
+- tilemap.tmx - Tiled tilemap
+- tilemap.png - tilemap as png file
