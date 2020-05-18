@@ -1,0 +1,18 @@
+# Aloevera project files, log files, metadata files (all considered transient)
+*.av
+aloevera.log
+*.meta
+
+# Aggregate png files
+assets/chopper.png
+
+# CC65 intermediate files
+*.o
+*.s
+*.prg
+*.list
+
+# Binary files
+*.BIN
+
+*.gif
