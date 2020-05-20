@@ -20,5 +20,11 @@ int8_t keyHandler(void)
     if (joy & JOY_DOWN_MASK) {
         act |= KEY_DOWN;
     } 
+    if (joy & JOY_BTN_1_MASK) {
+        act |= KEY_A;
+    }
+    if (joy & JOY_BTN_2_MASK) {
+        act |= KEY_B;
+    }
     return act;
 }

@@ -28,16 +28,33 @@ int main()
 
     screenConfig();
 
-    // Clear the full tilemap
+    // Clear the full tilemap for layer 1
     for (x = 0; x < 128; x++) {
         for (y = 0; y < 64; y++) {
             setTile(x,y,TILE_BLANK,0);
         }
     }
 
+    // // Clear the full tilemap for layer 0
+    // setBase(LAYER0_OFFSET);
+    // for (x = 0; x < 64; x++) {
+    //     for (y = 0; y < 32; y++) {
+    //         setTile(x,y,TILE_BLANK,0);
+    //     }
+    // }
+    
+    setBase(LAYER1_OFFSET);
+
     for (x = 0; x < 16; x++) {
         for (y = 0; y < 8; y++) {
             setTile(x,y,(y*16)+x,0);
+        }
+    }
+
+    setBase(LAYER0_OFFSET);
+    for (x = 0; x < 16; x++) {
+        for (y = 0; y < 8; y++) {
+            setTile(x,y+10,(y*16)+x,0);
         }
     }
 

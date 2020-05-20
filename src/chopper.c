@@ -1,5 +1,6 @@
 #include "chopper.h"
 #include "keys.h"
+#include "screen.h"
 #include <cx16.h>
 #include <joystick.h>
 #include <stdio.h>
@@ -61,6 +62,18 @@ void initChopper(uint16_t x, uint16_t y)
     VERA.data0 = 0xb0;                                   // Attr7
 
     vera_sprites_enable(1);
+}
+
+static void debugChopper()
+{
+    // int x = 0;
+    // char buffer[40];
+    // int len = sprintf(buffer,"X:%4d Y:%4d h:%4d v:%4d",chopper.x, chopper.y, chopper.hscroll, chopper.vscroll);
+    // for (x = 0; x < len; x++) {
+    //     setBase(LAYER0_OFFSET);
+    //     setTile(x,0,buffer[x],0);
+    // }
+    // setBase(LAYER1_OFFSET);
 }
 
 void updateChopper()
@@ -134,6 +147,14 @@ void updateChopper()
                 if (chopper.sequence == CHOPPER_FULL_LEFT) chopper.sequence = CHOPPER_LEFT;
             }
         }
+        if (action & KEY_A) {
+            VERA.layer1.hscroll = 0;
+            deltaX = 0;
+        }
+        if (action & KEY_B) {
+            VERA.layer1.hscroll = 4095;
+            deltaX = 0;
+        }
         if ((chopper.ticks %8) == 0) {
             deltaY += gravityDeltaY;
         }
@@ -145,14 +166,14 @@ void updateChopper()
 
         if (deltaX > 0) {
             if (chopper.x >= CHOPPER_RIGHT_THRESH) {
-                chopper.hscroll++;
+                chopper.hscroll+=deltaX;
                 VERA.layer1.hscroll = chopper.hscroll;
             } else {
                 chopper.x += deltaX;
             }
         } else if (deltaX < 0) {
             if (chopper.x <= CHOPPER_LEFT_THRESH) {
-                chopper.hscroll--;
+                chopper.hscroll+=deltaX;
                 VERA.layer1.hscroll = chopper.hscroll;
             } else {
                 chopper.x += deltaX;
@@ -183,5 +204,6 @@ void updateChopper()
         VERA.data0 = chopper.y & 0xff;
         VERA.data0 = chopper.y >> 8;
         VERA.data0 = (3 << 2) | chopper.direction;
+        debugChopper();
     }
 }
