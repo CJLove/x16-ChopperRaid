@@ -22,7 +22,7 @@ int main()
     // Setup input handler for joystick/keyboard
     inputHandler = keyHandler;
 
-    screenConfig();
+    screenConfig(SCREEN_CLEAR_L1);
 
     loadTilemap();
 

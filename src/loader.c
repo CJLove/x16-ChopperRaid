@@ -3,13 +3,15 @@
 #include <cx16.h>
 #include "vload.h"
 #include "load.h"
+#include "vera.h"
+#include "screen.h"
 
 int loadTilemap()
 {
     int result = 1;
 
     // Load tilemap
-    result = vload_host("tilemap.bin",0x00000);
+    result = vload_host("tilemap.bin",LAYER0_MAP_BASE);
     if (result)
         return result;
     else {
@@ -22,7 +24,7 @@ int loadFiles()
     int result = 1;
 
     // Load palette
-    result = vload_host("palette.bin",0x1fa00);
+    result = vload_host("palette.bin",VERA_PALETTE_BASE);
     if (result) 
         printf("  loaded palette\n");
     else {
@@ -31,7 +33,7 @@ int loadFiles()
     }
 
     // Load tiles
-    result = vload_host("tiles.bin",0x10000);
+    result = vload_host("tiles.bin",TILESET_BASE);
     if (result)
         printf("  loaded tiles\n");
     else {
@@ -40,15 +42,13 @@ int loadFiles()
     }
 
     // Load sprites
-    result = vload_host("sprites.bin",0x1c000);
+    result = vload_host("sprites.bin",SPRITES_BASE);
     if (result)
         printf("  loaded sprites\n");
     else {
         printf("  failed to load sprites\n");
         return 0;
     }
-
-
 
     return result;
 }

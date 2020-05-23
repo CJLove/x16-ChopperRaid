@@ -9,6 +9,8 @@
 
 // Test application which displays all tiles
 extern int loadFiles();
+extern int loadTilemap();
+extern int loadTilemap2();
 
 int main()
 {
@@ -26,35 +28,24 @@ int main()
         return result;
     }
 
-    screenConfig();
+    screenConfig(SCREEN_CLEAR_L1 | SCREEN_CLEAR_L0);
 
-    // Clear the full tilemap for layer 1
-    for (x = 0; x < 128; x++) {
-        for (y = 0; y < 64; y++) {
-            setTile(x,y,TILE_BLANK,0);
-        }
-    }
+    //loadTilemap();
 
-    // // Clear the full tilemap for layer 0
-    // setBase(LAYER0_OFFSET);
-    // for (x = 0; x < 64; x++) {
-    //     for (y = 0; y < 32; y++) {
-    //         setTile(x,y,TILE_BLANK,0);
-    //     }
-    // }
-    
-    setBase(LAYER1_OFFSET);
+    // Tiles on Layer1
+    setBase(LAYER1_MAP_BASE);
 
-    for (x = 0; x < 16; x++) {
-        for (y = 0; y < 8; y++) {
+    for (y = 0; y < 8; y++) {
+        for (x = 0; x < 16; x++) {
             setTile(x,y,(y*16)+x,0);
         }
     }
 
-    setBase(LAYER0_OFFSET);
-    for (x = 0; x < 16; x++) {
-        for (y = 0; y < 8; y++) {
-            setTile(x,y+10,(y*16)+x,0);
+    // Tiles on Layer0
+    setBase(LAYER0_MAP_BASE);
+    for (y = 0; y < 8; y++) {
+        for (x = 0; x < 16; x++) {
+            setTile(x+20,y,(y*16)+x,0);
         }
     }
 

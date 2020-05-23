@@ -1,15 +1,7 @@
 #include <cx16.h>
 #include <stdint.h>
 
-// Base sprite attribute addresses for sprite 0
-#define SPRITE_ATTR0    0x11fc00
-#define SPRITE_ATTR1    0x1fc01
-#define SPRITE_ATTR2    0x1fc02
-#define SPRITE_ATTR3    0x1fc03
-#define SPRITE_ATTR4    0x1fc04
-#define SPRITE_ATTR5    0x1fc05
-#define SPRITE_ATTR6    0x1fc06
-#define SPRITE_ATTR7    0x1fc07
+
 
 // Chopper sprite image addresses
 #define CHOPPER_CENTER_1    0x1c000
@@ -39,4 +31,4 @@ extern struct chopper_t chopper;
 
 extern void initChopper(uint16_t x, uint16_t y);
 
-extern void updateChopper();
+extern void updateChopper(void);

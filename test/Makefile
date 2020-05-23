@@ -16,6 +16,8 @@ test_sprites: test_sprites.c $(SRC)
 test_tiles: test_tiles.c $(SRC)
 	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -Oi -o test_tiles.prg test_tiles.c $(SRC) libX16.lib cx16.lib
 
+test_tilemap: test_tilemap.c $(SRC)
+	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -Oi -o test_tilemap.prg test_tilemap.c $(SRC) libX16.lib cx16.lib
 
 clean:
 	rm -f *.prg *.o
