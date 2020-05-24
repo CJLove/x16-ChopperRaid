@@ -10,6 +10,18 @@
 extern int loadFiles();
 extern int loadTilemap();
 
+void debugScroll()
+{
+    char buf[40];
+    int x = 0;
+    int len = sprintf(buf,"%c: %3u %c: %3u",24,VERA.layer0.hscroll,25,VERA.layer0.vscroll);
+
+    setBase(LAYER1_MAP_BASE);
+    for (; x < len; x++) {
+        setTile(x,0,buf[x],0);
+    }
+}
+
 int main()
 {
     int result = 0;
@@ -33,7 +45,7 @@ int main()
     // Setup input handler for joystick/keyboard
     inputHandler = keyHandler;
 
-    screenConfig(SCREEN_CLEAR_L0);
+    screenConfig(SCREEN_CLEAR_L1);
 
 
     
@@ -43,19 +55,28 @@ int main()
 
         key = inputHandler();
         if (key & KEY_RIGHT) {
-            hscroll += 4;
-            VERA.layer1.hscroll = hscroll;
+            if (hscroll <= 700) {
+                hscroll += 4;
+                VERA.layer0.hscroll = hscroll;
+            }
         } else if (key & KEY_LEFT) {
-            hscroll -= 4;
-            VERA.layer1.hscroll = hscroll;
+            if (hscroll >= 4) {
+                hscroll -= 4;
+                VERA.layer0.hscroll = hscroll;
+            }
         }
         if (key & KEY_UP) {
-            vscroll -= 4;
-            VERA.layer1.vscroll = vscroll;
+            if (vscroll >= 4) {
+                vscroll -= 4;
+                VERA.layer0.vscroll = vscroll;
+            }
         } else if (key & KEY_DOWN) {
-            vscroll += 4;
-            VERA.layer1.vscroll = vscroll;
+            if (vscroll <= 312) {
+                vscroll += 4;
+                VERA.layer0.vscroll = vscroll;
+            }
         }
+        debugScroll();
     } while (1);
 
     return result;

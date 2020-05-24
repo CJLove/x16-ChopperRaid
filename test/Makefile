@@ -29,14 +29,14 @@ bins: ../assets/palette.png ../assets/chopper_right.png ../assets/chopper_center
 	montage -background none -geometry 192x32+0+0 ../assets/chopper_center.png ../assets/chopper_right.png ../assets/chopper_tilt.png ../assets/chopper.png
 	rm -f chopper.av
 	aloevera create project chopper.av
-	aloevera -p chopper.av palette import palette ../assets/palette.png
+	aloevera -p chopper.av palette import chopper_palette ../assets/palette.png
 	aloevera -p chopper.av imageset import chopper_imageset 64 32 ../assets/chopper.png
-	aloevera -p chopper.av imageset format chopper_imageset palette 4
+	aloevera -p chopper.av imageset format chopper_imageset chopper_palette 4
 	aloevera -p chopper.av sprite init chopper_sprite chopper_imageset
-	aloevera -p chopper.av asm -f bin . select palette PALETTE.BIN
+	aloevera -p chopper.av asm -f bin . select chopper_palette PALETTE.BIN
 	aloevera -p chopper.av asm -f bin . select chopper_sprite SPRITES.BIN
 	aloevera -p chopper.av imageset import chopper_tile_imageset 8 8 ../assets/tileset.png
-	aloevera -p chopper.av imageset format chopper_tile_imageset palette 4
+	aloevera -p chopper.av imageset format chopper_tile_imageset chopper_palette 4
 	aloevera -p chopper.av asm -f bin . select chopper_tile_imageset TILES.BIN
 	aloevera -p chopper.av tilemap init chopper_tilemap chopper_tile_imageset 128 64 tile_4bpp
 	aloevera -p chopper.av tilemap load chopper_tilemap ../assets/tilemap.png
