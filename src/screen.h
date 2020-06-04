@@ -5,6 +5,8 @@
 #define TILESET_BASE        0x10000
 #define SPRITES_BASE        0x1c000
 
+extern uint8_t tiles[4][7];
+
 // Options for screenConfig()
 enum ScreenOpts_e {
     SCREEN_OPT_NONE = 0, 
@@ -21,3 +23,5 @@ extern void clearMap(uint32_t base);
 extern void setBase(uint32_t base);
 
 extern void setTile(uint8_t x, uint8_t y, uint8_t tile, uint8_t paletteOffset);
+
+extern void getTiles(uint8_t x, uint8_t y);

@@ -12,8 +12,14 @@ int loadTilemap()
 
     // Load tilemap
     result = vload_host("tilemap.bin",LAYER0_MAP_BASE);
-    if (result)
-        return result;
+    if (result) {
+        // Load tilemap metadata to bank 1
+        result = load_bank_host("mapmeta.bin",1);
+        if (result) {
+            return 1;
+        }
+        return 0;
+    }
     else {
         return 0;
     }
@@ -50,5 +56,13 @@ int loadFiles()
         return 0;
     }
 
+    // Load tile/sprite bitmap data to bank 2
+    result = load_bank_host("meta.bin",2);
+    if (result) 
+        printf("  loaded tile/sprite metadata\n");
+    else {
+        printf("  failed to load tile/sprite metadata\n");
+        return 0;
+    }
     return result;
 }

@@ -7,7 +7,7 @@
       {
         "name": "linux",
         "intelliSenseMode": "gcc-x64",
-        "includePath": ["${myCompilerPath}", "${myDefaultIncludePath}", "${workspaceFolder}/src" ],
+        "includePath": ["${myCompilerPath}", "${myDefaultIncludePath}", "${workspaceFolder}/src", "${workspaceFolder}/libX16Test/include" ],
         "compilerPath": "/opt/cc65/bin/cl65",
         "cStandard": "c99",
         "cppStandard": "c++17",

@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.inc": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "functional": "c"
     }
 }

@@ -3,6 +3,8 @@
 #include "vera.h"
 #include <stdio.h>
 
+// Buffer holding the current tiles under the chopper
+uint8_t tiles[4][7];
 
 // Blank tile
 #define TILE_BLANK 32
@@ -11,6 +13,13 @@
 #define MAP_HEIGHT 64
 // Offset between rows in tilemap
 #define MAP_OFFSET 256
+
+// Representation of tilemap metadata as stored in RAM bank 1
+struct TilemapMetadata_t {
+    uint8_t tiles[MAP_HEIGHT][MAP_WIDTH];
+};
+
+static struct TilemapMetadata_t *meta = (struct TilemapMetadata_t*)0xa000;
 
 // Base address for setTile()
 static uint32_t screenBase = LAYER1_MAP_BASE;
@@ -86,14 +95,39 @@ void clearMap(uint32_t base)
 
 void setTile(uint8_t x, uint8_t y, uint8_t tile, uint8_t paletteOffset)
 {
-#if 1
     uint32_t addr = screenBase | ((uint32_t)VERA_INC_1 << 16) + y*MAP_OFFSET + x*2;
     vpoke(tile, addr);
     VERA.data0 = (paletteOffset << 4);
-#else
-    uint32_t addr = screenBase + y*OFFSET + x*2;
-    vpoke(tile, addr);
-    vpoke((paletteOffset << 4),addr+1);
-#endif
 }
 
+void getTiles(uint8_t x, uint8_t y)
+{
+    // Access tile metadata from RAM bank 1
+    int i = 0;
+    uint8_t *layer = (uint8_t*)0xa000;
+    uint16_t idx = y*MAP_WIDTH + x;
+    // Switch to bank 1
+    VIA1.pra = 1;
+    for (i = 0; i < 7; i++) {
+        if (y <= 63) {
+            tiles[0][i] = meta->tiles[y][x+i];
+        } else {
+            tiles[0][i] = tiles[1][i] = tiles[2][i] = tiles[3][i] = TILE_BLANK;
+        }
+        if (y <= 62) {
+            tiles[1][i] = meta->tiles[y+1][x+i];
+        } else {
+            tiles[1][i] = tiles[2][i] = tiles[3][i] = TILE_BLANK;
+        }
+        if (y <= 61) {
+            tiles[2][i] = meta->tiles[y+2][x+i];
+        } else {
+            tiles[2][i] = tiles[3][i] = TILE_BLANK;
+        }
+        if (y <= 60) {
+            tiles[3][i] = meta->tiles[y+3][x+i];
+        } else {
+            tiles[3][i] = TILE_BLANK;
+        }
+    }   
+}

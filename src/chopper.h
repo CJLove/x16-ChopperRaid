@@ -19,15 +19,23 @@ struct chopper_t {
     uint16_t vscroll;
     uint16_t x;
     uint16_t y;
+    uint8_t tx;
+    uint8_t ty;
+    uint8_t partialX;
+    uint8_t partialY;
+    uint8_t landed;
     uint8_t direction;
     uint8_t sequence;
     uint8_t idx;
     uint8_t ticks;
     uint8_t tiltCount;
-
 };
 
 extern struct chopper_t chopper;
+
+// Chopper sequences
+enum chopper_seq_e { CHOPPER_FULL_LEFT, CHOPPER_LEFT, CHOPPER_CENTER, CHOPPER_RIGHT, CHOPPER_FULL_RIGHT };
+
 
 extern void initChopper(uint16_t x, uint16_t y);
 
