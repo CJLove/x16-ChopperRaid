@@ -36,7 +36,6 @@ bins: ../assets/palette.png ../assets/chopper_right.png ../assets/chopper_center
 	montage -background none -geometry 192x32+0+0 ../assets/chopper_center.png ../assets/chopper_right.png ../assets/chopper_tilt.png ../assets/chopper.png
 	rm -f chopper.av
 	aloevera create project chopper.av
-	#aloevera -p chopper.av palette import chopper_palette ../assets/palette.png
 	aloevera -p chopper.av palette import chopper_palette ../assets/ChopperRaidPalette.gpl
 	aloevera -p chopper.av palette import bitmap_palette ../assets/bitmap_palette.gpl
 	aloevera -p chopper.av imageset import chopper_imageset 64 32 ../assets/chopper.png

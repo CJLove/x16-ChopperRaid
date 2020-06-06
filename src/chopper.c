@@ -25,7 +25,7 @@ struct chopper_t chopper;
 
 
 static const int gravityDeltaY = 1; //1;
-static const int horizDeltaX = 2;
+static const int horizDeltaX = 4;
 
 static uint32_t chopperSequences[MAX_SEQUENCE][SEQ_LENGTH] = {
     // Bit-flipped for tilt left
