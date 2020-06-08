@@ -78,6 +78,33 @@ void clearTiles() {
     }
 }
 
+int testCoarseSpecial()
+{
+    int result = 0;
+    uint8_t x = 0;
+    TEST_INIT()
+
+    chopper.sequence = CHOPPER_FULL_LEFT;
+    chopper.x = 0;
+    chopper.y = 0;
+    chopper.tx = 0;
+    chopper.ty = 0;
+    chopper.partialX = 0;
+    chopper.partialY = 0;
+
+    clearTiles();
+    for (x = 0; x < 7; x++) {
+        tiles[3][x] = 68;
+    }
+    tiles[3][3] = 119;  // "key"
+    chopper.partialY = 4;
+
+    result = checkCoarseCollision();
+    EXPECT_EQ(0,result);
+
+    TEST_COMPLETE()
+}
+
 int testLandFarLeft()
 {
     int result = 0;
@@ -723,13 +750,7 @@ int main()
         printf("  failed to load tile/sprite metadata\n");
         return 0;
     }
-    // result = load_bank_host("mapmeta.bin",1);
-    // if (result) {
-    //     printf("  loaded tilemap metadata\n");
-    // } else {
-    //     printf("  failed to load tilemap metadata\n");
-    //     return 0;
-    // }
+
 
     // dumpTilemap(0,20);
     // dumpTilemap(1,20);
@@ -744,7 +765,8 @@ int main()
     // Debugging: dump a specific sprite's bitmap
     //dumpSprite(8);
 
-
+    registerTestModule(testCoarseSpecial,"Coarse special tiles");
+#if 0
     registerTestModule(testLandFarLeft,"Land full left");
     registerTestModule(testLandLeft,"Land left");
     registerTestModule(testLandCenter,"Land center");
@@ -753,6 +775,6 @@ int main()
     registerTestModule(testChopperFarLeft,"Chopper full left");
     registerTestModule(testChopperLeft,"Chopper left");
     registerTestModule(testChopperCenter,"Chopper center");
-
+#endif
     return x16testmain(TEST_EXIT);
 }

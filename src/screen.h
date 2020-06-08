@@ -24,4 +24,7 @@ extern void setBase(uint32_t base);
 
 extern void setTile(uint8_t x, uint8_t y, uint8_t tile, uint8_t paletteOffset);
 
+extern void setMetaTile(uint8_t x, uint8_t y, uint8_t tile);
+
 extern void getTiles(uint8_t x, uint8_t y);
+

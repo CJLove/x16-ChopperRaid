@@ -100,6 +100,11 @@ void setTile(uint8_t x, uint8_t y, uint8_t tile, uint8_t paletteOffset)
     VERA.data0 = (paletteOffset << 4);
 }
 
+void setMetaTile(uint8_t x, uint8_t y, uint8_t tile)
+{
+    meta->tiles[y][x] = tile;
+}
+
 void getTiles(uint8_t x, uint8_t y)
 {
     // Access tile metadata from RAM bank 1

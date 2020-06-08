@@ -31,9 +31,9 @@ clean:
 
 all: bins test_chopper
 
-bins: ../assets/palette.png ../assets/chopper_right.png ../assets/chopper_center.png ../assets/chopper_tilt.png ../assets/tileset.png
+bins: ../assets/ChopperRaidPalette.gpl ../assets/bitmap_palette.gpl ../assets/chopper_right.png ../assets/chopper_center.png ../assets/chopper_tilt.png ../assets/chopper_explosion.png ../assets/tileset.png
 	rm -f ../assets/chopper.png
-	montage -background none -geometry 192x32+0+0 ../assets/chopper_center.png ../assets/chopper_right.png ../assets/chopper_tilt.png ../assets/chopper.png
+	montage -background none -geometry 192x32+0+0 ../assets/chopper_center.png ../assets/chopper_right.png ../assets/chopper_tilt.png ../assets/chopper_explosion.png ../assets/chopper.png 
 	rm -f chopper.av
 	aloevera create project chopper.av
 	aloevera -p chopper.av palette import chopper_palette ../assets/ChopperRaidPalette.gpl
@@ -52,6 +52,8 @@ bins: ../assets/palette.png ../assets/chopper_right.png ../assets/chopper_center
 	aloevera -p chopper.av tilemap init chopper_tilemap chopper_tile_imageset 128 64 tile_4bpp
 	aloevera -p chopper.av tilemap load chopper_tilemap ../assets/tilemap.png
 	aloevera -p chopper.av asm -f bin . select chopper_tilemap TILEMAP.BIN
+	# Convert Tiled tilemap into MAPMETA.BIN for bank 1
 	../scripts/tilemap.py --input ../assets/tilemap.tmx --output MAPMETA.BIN
+	# Convert chopper bitmap png into bitmap appended to META.BIN
 	../scripts/bitmap.py --input ../assets/chopper_bitmap.png --output META.BIN
 	

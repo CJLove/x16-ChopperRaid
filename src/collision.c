@@ -24,6 +24,8 @@ static struct Metadata_t *meta = (struct Metadata_t *) 0xa000;
 #define TILE_BLANK 32
 #define TILE_PAD1 80
 #define TILE_PAD2 96
+#define TILE_KEY  119
+#define TILE_TOKEN_MAX  127
 
 int okToLand()
 {
@@ -72,6 +74,17 @@ int okToLand()
     return 0;
 }
 
+void handleSpecialTile(uint8_t tx, uint8_t ty, uint8_t tile)
+{
+    setTile(39,1,tile,0);
+
+    setBase(LAYER0_MAP_BASE);
+    setTile(tx,ty,TILE_BLANK,0);
+    setMetaTile(tx,ty,TILE_BLANK);
+
+
+}
+
 int checkCoarseCollision()
 {
     int i = 0, j = 0;
@@ -79,15 +92,28 @@ int checkCoarseCollision()
     int yLimit = 3 + (chopper.partialY >= 4);
     // X limit is 6 tiles unless partialX > 0, then it is 7 tiles
     int xlimit = 6 + (chopper.partialX > 0);
+#if defined(DEBUG_CHOPPER)                
     setBase(LAYER1_MAP_BASE);
+    setTile(38,0,48+yLimit,0);
+#endif
+    if (yLimit == 4) {
+        for (i = 0; i < xlimit; i++) {
+            // Handle any "special" tiles in tiles[3][x] which get picked up by the chopper
+            // Do this only if chopper.partialY >= 4)            
+            uint8_t tile = tiles[3][i];
+            if (tile >= TILE_KEY && tile <= TILE_TOKEN_MAX) {
+#if !defined(UNIT_TEST)
+                handleSpecialTile(chopper.tx + i,chopper.ty + 3,tile);
+#endif                        
+                return 0;
+            }
+        }
+    }
     for (j = 0; j < yLimit; j++) {
         for (i = 0; i < xlimit; i++)
         {
             if (tiles[j][i] != TILE_BLANK) {
-                // TODO: Handle any "special" tiles in tiles[3][x] which get picked up by the chopper
-                // Do this only if j == 3 (chopper.partialY >= 4)
-
-                // Otherwise return 1 and indicate that "fine" collision detection is needed
+                // Return 1 and indicate that "fine" collision detection is needed
 #if defined(DEBUG_CHOPPER)                
                 setBase(LAYER1_MAP_BASE);
                 setTile(31,6,24,0);

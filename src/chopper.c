@@ -19,7 +19,7 @@ struct chopper_t chopper;
 #define CHOPPER_BOTTOM_THRESH 175
 
 
-#define MAX_SEQUENCE 5
+#define MAX_SEQUENCE 6
 #define SEQ_LENGTH 4
 
 
@@ -38,9 +38,64 @@ static uint32_t chopperSequences[MAX_SEQUENCE][SEQ_LENGTH] = {
     {CHOPPER_RIGHT_1, CHOPPER_RIGHT_2, CHOPPER_RIGHT_3, CHOPPER_RIGHT_2},
     // Tilt right
     {CHOPPER_TILT_RIGHT_1, CHOPPER_TILT_RIGHT_2, CHOPPER_TILT_RIGHT_3, CHOPPER_TILT_RIGHT_2},
+    // Explosion sequence 
+    {CHOPPER_EXPLODE_1, CHOPPER_EXPLODE_2, CHOPPER_EXPLODE_3, CHOPPER_EXPLODE_2 }
+
 };
 
+struct chopper_save_t {
+    uint16_t hscroll;
+    uint16_t vscroll;
+    uint16_t x;
+    uint16_t y;
+    uint8_t landed;
+};
 
+static struct chopper_save_t chopper_save;
+
+void saveChopper()
+{
+    chopper_save.hscroll = chopper.hscroll;
+    chopper_save.vscroll = chopper.vscroll;
+    chopper_save.x = chopper.x;
+    chopper_save.y = chopper.y;
+    chopper_save.landed = chopper.landed;
+}
+
+void restoreChopper()
+{
+    chopper.hscroll = chopper_save.hscroll;
+    chopper.vscroll = chopper_save.vscroll;
+    chopper.x = chopper_save.x;
+    chopper.y = chopper_save.y;
+    chopper.landed = chopper_save.landed;
+
+    chopper.tx = (chopper.x / 8) + 1;
+    chopper.partialX = (chopper.x % 8);
+    chopper.ty = chopper.y / 8;
+    chopper.partialY = (chopper.y % 8);
+
+    chopper.idx = 0;
+    chopper.ticks = 0;
+    chopper.tiltCount = 0;
+
+    chopper.sequence = CHOPPER_CENTER;
+    chopper.direction = 0;
+
+    // Restore sprite attribute settings
+    vpoke(SPRITE_ADDR_L(CHOPPER_CENTER_1), SPRITE_ATTR0);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(CHOPPER_CENTER_1);          // Attr1
+    VERA.data0 = chopper.x & 0xff;                         // Attr2
+    VERA.data0 = chopper.x >> 8;                           // Attr3
+    VERA.data0 = chopper.y & 0xff;                         // Attr4
+    VERA.data0 = chopper.y >> 8;                           // Attr5
+    VERA.data0 = SPRITE_LAYER1;                            // Attr6
+    VERA.data0 = SPRITE_WIDTH_64 | SPRITE_HEIGHT_32;       // Attr7
+
+    // Restore hscroll and vscroll
+    VERA.layer0.hscroll = chopper.hscroll;
+    VERA.layer0.vscroll = chopper.vscroll;
+}
 
 
 
@@ -66,6 +121,8 @@ void initChopper(uint16_t x, uint16_t y)
     chopper.sequence = CHOPPER_CENTER;
     chopper.direction = 0;
 
+    saveChopper();
+
     // Initial sprite attribute settings
     vpoke(SPRITE_ADDR_L(CHOPPER_CENTER_1), SPRITE_ATTR0);  // Attr0
     VERA.data0 = SPRITE_ADDR_H(CHOPPER_CENTER_1);          // Attr1
@@ -86,14 +143,17 @@ static void debugChopper()
     char buffer[40];
     int limit = 6 + (chopper.partialX != 0);
 
-    int len = sprintf(buffer,"%c:%3d %c:%3d %c:%3d %c:%3d %c%c:%3d %c:%d %c%c:%2d",
+    int len = sprintf(buffer,"%c:%3d %c:%3d %c:%3d %c:%3d %c%c:%d %c%c:%d",
                       24,chopper.x, 25, chopper.y, 8, chopper.hscroll, 22, chopper.vscroll,
-                      20,24,chopper.tx,16,(chopper.partialX != 0), 20,25,chopper.ty);
+                      16,24,chopper.partialX, 16,25,chopper.partialY);
     setBase(LAYER1_MAP_BASE);
     for (x = 0; x < len; x++) {
         setTile(x,0,buffer[x],0);
     }
-
+    len = sprintf(buffer,"%c%c:%2d %c%c:%2d", 20,24,chopper.tx,20,25,chopper.ty);
+    for (x = 0; x < len; x++) {
+        setTile(x,1,buffer[x],0);
+    }
     setBase(LAYER1_MAP_BASE);
     setTile(29,1,48,0); // Row 0
     setTile(29,2,49,0); // Row 1
@@ -117,6 +177,26 @@ static void debugChopper()
     }
 }
 #endif
+
+void crashChopper()
+{
+    uint8_t i = 0;
+    uint8_t j = 0;
+
+    for (i = 0; i < SEQ_LENGTH; i++) {
+        vpoke(SPRITE_ADDR_L(chopperSequences[CHOPPER_EXPLODE][i]), SPRITE_ATTR0);
+        VERA.data0 = SPRITE_ADDR_H(chopperSequences[CHOPPER_EXPLODE][i]);
+        for (j = 0; j < 5; j++) {
+            waitvsync();
+        }
+        
+    }
+    for (j = 0; j < 5; j++) {
+        waitvsync();
+    }   
+
+    restoreChopper();
+}
 
 void updateChopper()
 {
@@ -240,6 +320,9 @@ void updateChopper()
             }
         }
         chopper.landed = okToLand();
+        if (chopper.landed) {
+            saveChopper();
+        }
         if (deltaY > 0) {
 
             if (chopper.landed) {
@@ -278,6 +361,7 @@ void updateChopper()
         if (checkCoarseCollision()) {
             if (checkFineCollision()) {
                 // Crash
+                crashChopper();
             }
         }
 

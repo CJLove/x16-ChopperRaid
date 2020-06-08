@@ -13,6 +13,10 @@
 #define CHOPPER_TILT_RIGHT_1    0x1d800
 #define CHOPPER_TILT_RIGHT_2    0x1dc00
 #define CHOPPER_TILT_RIGHT_3    0x1e000
+#define CHOPPER_EXPLODE_1   0x1e400
+#define CHOPPER_EXPLODE_2   0x1e800
+#define CHOPPER_EXPLODE_3   0x1ec00
+
 
 struct chopper_t {
     uint16_t hscroll;
@@ -34,7 +38,7 @@ struct chopper_t {
 extern struct chopper_t chopper;
 
 // Chopper sequences
-enum chopper_seq_e { CHOPPER_FULL_LEFT, CHOPPER_LEFT, CHOPPER_CENTER, CHOPPER_RIGHT, CHOPPER_FULL_RIGHT };
+enum chopper_seq_e { CHOPPER_FULL_LEFT, CHOPPER_LEFT, CHOPPER_CENTER, CHOPPER_RIGHT, CHOPPER_FULL_RIGHT, CHOPPER_EXPLODE };
 
 
 extern void initChopper(uint16_t x, uint16_t y);
