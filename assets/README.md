@@ -9,6 +9,12 @@
 - chopper_tilt.piskel - Piskel file for chopper tilted right
 - chopper_tilt.png - Spritesheet for chopper tilted right (3 64x32 sprites, 4bpp)
 
+- horiz_turret.piskel - Piskel file for horizontal turret
+- horiz_turret.png - Spritesheet for horizontal turret (4 8x16 sprites, 4bpp)
+
+- vert_turret.piskel - Piskel file for vertical turret
+- vert_turret.png - Spritesheet for vertical turret (4 16x8 sprites, 4bpp)
+
 - tileset.piskel - Piskel file for tileset (128x64,4bpp)
 - tileset.png - tileset as png file (export from Piskel)
 - tileset.tsx - Tiled tileset based on tileset.png

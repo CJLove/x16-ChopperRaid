@@ -102,7 +102,22 @@ void setTile(uint8_t x, uint8_t y, uint8_t tile, uint8_t paletteOffset)
 
 void setMetaTile(uint8_t x, uint8_t y, uint8_t tile)
 {
-    meta->tiles[y][x] = tile;
+    if (x < MAP_WIDTH && y < MAP_HEIGHT) {
+        // Switch to bank 1
+        VIA1.pra = 1;
+        meta->tiles[y][x] = tile;
+    }
+}
+
+uint8_t getMetaTile(uint8_t x, uint8_t y)
+{
+    if (x < MAP_WIDTH && y < MAP_HEIGHT) {
+        // Switch to bank 1
+        VIA1.pra = 1;
+        return meta->tiles[y][x];
+    }
+    // x or y out of bounds
+    return 0;
 }
 
 void getTiles(uint8_t x, uint8_t y)

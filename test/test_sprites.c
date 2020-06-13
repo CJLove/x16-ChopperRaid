@@ -1,5 +1,6 @@
 #include "chopper.h"
 #include "screen.h"
+#include "turret.h"
 #include "vera.h"
 #include <conio.h>
 #include <cx16.h>
@@ -141,6 +142,142 @@ int main()
     VERA.data0 = SPRITE_Y_H(y);                          // Attr5
     VERA.data0 = SPRITE_LAYER1;                          // Attr6
     VERA.data0 = SPRITE_WIDTH_64 | SPRITE_HEIGHT_32;     // Attr7
+
+    x = 16;
+    y += 40;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(CHOPPER_EXPLODE_1), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(CHOPPER_EXPLODE_1);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                       // Attr2
+    VERA.data0 = SPRITE_X_H(x);                       // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                       // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                       // Attr5
+    VERA.data0 = SPRITE_LAYER1;                       // Attr6
+    VERA.data0 = SPRITE_WIDTH_64 | SPRITE_HEIGHT_32;  // Attr7
+
+    x += 70;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(CHOPPER_EXPLODE_2), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(CHOPPER_EXPLODE_2);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                       // Attr2
+    VERA.data0 = SPRITE_X_H(x);                       // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                       // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                       // Attr5
+    VERA.data0 = SPRITE_LAYER1;                       // Attr6
+    VERA.data0 = SPRITE_WIDTH_64 | SPRITE_HEIGHT_32;  // Attr7
+
+    x += 70;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(CHOPPER_EXPLODE_3), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(CHOPPER_EXPLODE_3);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                       // Attr2
+    VERA.data0 = SPRITE_X_H(x);                       // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                       // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                       // Attr5
+    VERA.data0 = SPRITE_LAYER1;                       // Attr6
+    VERA.data0 = SPRITE_WIDTH_64 | SPRITE_HEIGHT_32;  // Attr7
+
+    // Horizontal turret 8x16
+    x = 16;
+    y += 40;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(TURRET_UP_LEFT), sprite);    // Attr0
+    VERA.data0 = SPRITE_ADDR_H(TURRET_UP_LEFT);      // Attr1
+    VERA.data0 = SPRITE_X_L(x);                      // Attr2
+    VERA.data0 = SPRITE_X_H(x);                      // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                      // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                      // Attr5
+    VERA.data0 = SPRITE_LAYER1|2;                      // Attr6
+    VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_16;  // Attr7
+
+    x += 16;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(TURRET_UP_UP), sprite);      // Attr0
+    VERA.data0 = SPRITE_ADDR_H(TURRET_UP_UP);        // Attr1
+    VERA.data0 = SPRITE_X_L(x);                      // Attr2
+    VERA.data0 = SPRITE_X_H(x);                      // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                      // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                      // Attr5
+    VERA.data0 = SPRITE_LAYER1|2;                      // Attr6
+    VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_16;  // Attr7
+
+    x += 16;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(TURRET_UP_RIGHT), sprite);   // Attr0
+    VERA.data0 = SPRITE_ADDR_H(TURRET_UP_RIGHT);     // Attr1
+    VERA.data0 = SPRITE_X_L(x);                      // Attr2
+    VERA.data0 = SPRITE_X_H(x);                      // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                      // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                      // Attr5
+    VERA.data0 = SPRITE_LAYER1|2;                      // Attr6
+    VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_16;  // Attr7
+
+    x += 16;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(TURRET_UP_EXPLODE), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(TURRET_UP_EXPLODE);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                       // Attr2
+    VERA.data0 = SPRITE_X_H(x);                       // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                       // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                       // Attr5
+    VERA.data0 = SPRITE_LAYER1;                       // Attr6
+    VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_16;   // Attr7
+
+    // Vertical turret 16x8
+    x += 32;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(TURRET_LEFT_LEFT), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(TURRET_LEFT_LEFT);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                      // Attr2
+    VERA.data0 = SPRITE_X_H(x);                      // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                      // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                      // Attr5
+    VERA.data0 = SPRITE_LAYER1|1;                      // Attr6
+    VERA.data0 = SPRITE_WIDTH_16 | SPRITE_HEIGHT_8;  // Attr7
+
+    x += 24;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(TURRET_LEFT_UP), sprite);    // Attr0
+    VERA.data0 = SPRITE_ADDR_H(TURRET_LEFT_UP);      // Attr1
+    VERA.data0 = SPRITE_X_L(x);                      // Attr2
+    VERA.data0 = SPRITE_X_H(x);                      // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                      // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                      // Attr5
+    VERA.data0 = SPRITE_LAYER1|1;                      // Attr6
+    VERA.data0 = SPRITE_WIDTH_16 | SPRITE_HEIGHT_8;  // Attr7
+
+    x += 24;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(TURRET_LEFT_RIGHT), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(TURRET_LEFT_RIGHT);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                       // Attr2
+    VERA.data0 = SPRITE_X_H(x);                       // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                       // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                       // Attr5
+    VERA.data0 = SPRITE_LAYER1|1;                       // Attr6
+    VERA.data0 = SPRITE_WIDTH_16 | SPRITE_HEIGHT_8;   // Attr7
+
+    x += 24;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(TURRET_LEFT_EXPLODE), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(TURRET_LEFT_EXPLODE);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                         // Attr2
+    VERA.data0 = SPRITE_X_H(x);                         // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                         // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                         // Attr5
+    VERA.data0 = SPRITE_LAYER1;                         // Attr6
+    VERA.data0 = SPRITE_WIDTH_16 | SPRITE_HEIGHT_8;     // Attr7
 
     // Enable sprites
     vera_sprites_enable(1);

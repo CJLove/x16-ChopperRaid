@@ -14,5 +14,6 @@ assets/chopper.png
 
 # Binary files
 *.BIN
+*.bin
 
 *.gif

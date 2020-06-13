@@ -14,6 +14,7 @@ int main()
 {
     int i = 0;
     int result = 0;
+    uint16_t count = 0;
     result = loadFiles();
 
     // Install CX16 joystick driver
@@ -31,7 +32,17 @@ int main()
     while (1) {
         waitvsync();
 
-        updateChopper();
+        switch (count) {
+        case 0:
+            updateChopper();
+            break;
+        case 1:
+            break;
+        case 2:
+            break;
+        }
+        count++;
+        if (count == 3) count == 0;
     }
 
     return 0;

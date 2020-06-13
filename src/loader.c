@@ -55,6 +55,20 @@ int loadFiles()
         printf("  failed to load sprites\n");
         return 0;
     }
+    result = vload_host("hturret.bin",SPRITES_BASE + 0x3000);
+    if (result)
+        printf("  loaded hturret sprites\n");
+    else {
+        printf("  failed to load hturret sprites\n");
+        return 0;
+    }
+    result = vload_host("vturret.bin",SPRITES_BASE + 0x3100);
+    if (result)
+        printf("  loaded vturet sprites\n");
+    else {
+        printf("  failed to load vturret sprites\n");
+        return 0;
+    }
 
     // Load tile/sprite bitmap data to bank 2
     result = load_bank_host("meta.bin",2);
