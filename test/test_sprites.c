@@ -1,3 +1,4 @@
+#include "beams.h"
 #include "chopper.h"
 #include "screen.h"
 #include "turret.h"
@@ -191,7 +192,7 @@ int main()
     VERA.data0 = SPRITE_X_H(x);                      // Attr3
     VERA.data0 = SPRITE_Y_L(y);                      // Attr4
     VERA.data0 = SPRITE_Y_H(y);                      // Attr5
-    VERA.data0 = SPRITE_LAYER1|2;                      // Attr6
+    VERA.data0 = SPRITE_LAYER1 | 2;                  // Attr6
     VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_16;  // Attr7
 
     x += 16;
@@ -203,7 +204,7 @@ int main()
     VERA.data0 = SPRITE_X_H(x);                      // Attr3
     VERA.data0 = SPRITE_Y_L(y);                      // Attr4
     VERA.data0 = SPRITE_Y_H(y);                      // Attr5
-    VERA.data0 = SPRITE_LAYER1|2;                      // Attr6
+    VERA.data0 = SPRITE_LAYER1 | 2;                  // Attr6
     VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_16;  // Attr7
 
     x += 16;
@@ -215,7 +216,7 @@ int main()
     VERA.data0 = SPRITE_X_H(x);                      // Attr3
     VERA.data0 = SPRITE_Y_L(y);                      // Attr4
     VERA.data0 = SPRITE_Y_H(y);                      // Attr5
-    VERA.data0 = SPRITE_LAYER1|2;                      // Attr6
+    VERA.data0 = SPRITE_LAYER1 | 2;                  // Attr6
     VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_16;  // Attr7
 
     x += 16;
@@ -240,7 +241,7 @@ int main()
     VERA.data0 = SPRITE_X_H(x);                      // Attr3
     VERA.data0 = SPRITE_Y_L(y);                      // Attr4
     VERA.data0 = SPRITE_Y_H(y);                      // Attr5
-    VERA.data0 = SPRITE_LAYER1|1;                      // Attr6
+    VERA.data0 = SPRITE_LAYER1 | 1;                  // Attr6
     VERA.data0 = SPRITE_WIDTH_16 | SPRITE_HEIGHT_8;  // Attr7
 
     x += 24;
@@ -252,7 +253,7 @@ int main()
     VERA.data0 = SPRITE_X_H(x);                      // Attr3
     VERA.data0 = SPRITE_Y_L(y);                      // Attr4
     VERA.data0 = SPRITE_Y_H(y);                      // Attr5
-    VERA.data0 = SPRITE_LAYER1|1;                      // Attr6
+    VERA.data0 = SPRITE_LAYER1 | 1;                  // Attr6
     VERA.data0 = SPRITE_WIDTH_16 | SPRITE_HEIGHT_8;  // Attr7
 
     x += 24;
@@ -264,7 +265,7 @@ int main()
     VERA.data0 = SPRITE_X_H(x);                       // Attr3
     VERA.data0 = SPRITE_Y_L(y);                       // Attr4
     VERA.data0 = SPRITE_Y_H(y);                       // Attr5
-    VERA.data0 = SPRITE_LAYER1|1;                       // Attr6
+    VERA.data0 = SPRITE_LAYER1 | 1;                   // Attr6
     VERA.data0 = SPRITE_WIDTH_16 | SPRITE_HEIGHT_8;   // Attr7
 
     x += 24;
@@ -278,6 +279,56 @@ int main()
     VERA.data0 = SPRITE_Y_H(y);                         // Attr5
     VERA.data0 = SPRITE_LAYER1;                         // Attr6
     VERA.data0 = SPRITE_WIDTH_16 | SPRITE_HEIGHT_8;     // Attr7
+
+    // Projectiles 8x8
+    x = 16;
+    y += 16;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(QUAD_BEAM_IMAGE), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(QUAD_BEAM_IMAGE);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                     // Attr2
+    VERA.data0 = SPRITE_X_H(x);                     // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                     // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                     // Attr5
+    VERA.data0 = SPRITE_LAYER1;                     // Attr6
+    VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_8;  // Attr7
+
+    x += 16;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(QUAD_BEAM_IMAGE), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(QUAD_BEAM_IMAGE);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                     // Attr2
+    VERA.data0 = SPRITE_X_H(x);                     // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                     // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                     // Attr5
+    VERA.data0 = SPRITE_LAYER1 | 1;                 // Attr6
+    VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_8;  // Attr7
+
+    x += 16;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(DUAL_VBEAM_IMAGE), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(DUAL_VBEAM_IMAGE);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                      // Attr2
+    VERA.data0 = SPRITE_X_H(x);                      // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                      // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                      // Attr5
+    VERA.data0 = SPRITE_LAYER1;                      // Attr6
+    VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_8;   // Attr7
+
+    x += 16;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(DUAL_HBEAM_IMAGE), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(DUAL_HBEAM_IMAGE);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                      // Attr2
+    VERA.data0 = SPRITE_X_H(x);                      // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                      // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                      // Attr5
+    VERA.data0 = SPRITE_LAYER1;                      // Attr6
+    VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_8;   // Attr7
 
     // Enable sprites
     vera_sprites_enable(1);

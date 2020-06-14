@@ -5,7 +5,7 @@ LIBRARIES := -L ../libX16/lib -L ../libX16Test/lib
 INCLUDES := -I ../libX16/include -I ../libX16Test/include -I ../src
 
 SRC = \
-	../src/chopper.c ../src/loader.c ../src/keys.c ../src/screen.c ../src/collision.c ../src/turret.c
+	../src/chopper.c ../src/loader.c ../src/keys.c ../src/screen.c ../src/collision.c ../src/turret.c ../src/beams.c
 
 test_chopper: test_chopper.c $(SRC)
 	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -DDEBUG_CHOPPER=1 -Oi -o test_chopper.prg test_chopper.c $(SRC) libX16.lib cx16.lib
@@ -19,8 +19,13 @@ test_tiles: test_tiles.c $(SRC)
 test_tilemap: test_tilemap.c $(SRC)
 	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -Oi -o test_tilemap.prg test_tilemap.c $(SRC) libX16.lib cx16.lib
 
+# -DDEBUG_TURRETS=1
 test_turrets: test_turrets.c $(SRC)
 	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -Oi -o test_turrets.prg test_turrets.c $(SRC) libX16.lib cx16.lib	
+
+# -DDEBUG_BEAMS=1
+test_beams: test_beams.c $(SRC)
+	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -Oi -o test_beams.prg test_beams.c $(SRC) libX16.lib cx16.lib	
 
 test_collision: test_collision.c $(SRC)
 	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -DUNIT_TEST=1 -Oi -o test_collision.prg test_collision.c $(SRC) libX16.lib libX16Test.lib cx16.lib
@@ -63,7 +68,10 @@ bins: ../assets/ChopperRaidPalette.gpl ../assets/bitmap_palette.gpl ../assets/ch
 	aloevera -p chopper.av imageset format vert_turret_imageset chopper_palette 4
 	aloevera -p chopper.av sprite init vturret_sprite vert_turret_imageset
 	aloevera -p chopper.av asm -f bin . select vturret_sprite VTURRET.BIN
-
+	aloevera -p chopper.av imageset import projectiles 8 8 ../assets/projectiles.png
+	aloevera -p chopper.av imageset format projectiles chopper_palette 4
+	aloevera -p chopper.av sprite init projectiles_sprite projectiles
+	aloevera -p chopper.av asm -f bin . select projectiles_sprite PROJ.BIN
 	# Convert Tiled tilemap into MAPMETA.BIN for bank 1
 	../scripts/tilemap.py --input ../assets/tilemap.tmx --output MAPMETA.BIN
 	# Convert chopper bitmap png into bitmap appended to META.BIN

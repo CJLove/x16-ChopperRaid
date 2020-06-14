@@ -76,8 +76,11 @@ int okToLand()
 
 void handleSpecialTile(uint8_t tx, uint8_t ty, uint8_t tile)
 {
-    setTile(39,1,tile,0);
+    // Display the special tile in the heads up display
+    setBase(LAYER1_MAP_BASE);
+    setTile(30+(tile - TILE_KEY),0,tile,0);
 
+    // Remove the tile from the tilemap and meta tilemap
     setBase(LAYER0_MAP_BASE);
     setTile(tx,ty,TILE_BLANK,0);
     setMetaTile(tx,ty,TILE_BLANK);
@@ -104,7 +107,7 @@ int checkCoarseCollision()
             if (tile >= TILE_KEY && tile <= TILE_TOKEN_MAX) {
 #if !defined(UNIT_TEST)
                 handleSpecialTile(chopper.tx + i,chopper.ty + 3,tile);
-#endif                        
+#endif          
                 return 0;
             }
         }

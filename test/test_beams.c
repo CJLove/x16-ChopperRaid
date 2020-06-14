@@ -6,7 +6,7 @@
 #include "chopper.h"
 #include "screen.h"
 #include "keys.h"
-#include "turret.h"
+#include "beams.h"
 #include "load.h"
 
 // Test application which displays all tiles
@@ -52,15 +52,22 @@ int main()
     // Setup input handler for joystick/keyboard
     inputHandler = keyHandler;
 
+#if 0
+    loadTilemap();
+
+    result = initBeams();
+    return result;
+#else        
+
     screenConfig(SCREEN_CLEAR_L1);
 
     loadTilemap();
     initChopper(50, 50);    
-    result = initTurrets();
+    result = initBeams();
+//    chopper.hscroll = 0;
+//    chopper.vscroll = 0;
 
-
-//    vera_sprites_enable(1);
-
+    vera_sprites_enable(1);
 
     do {
         waitvsync();
@@ -91,7 +98,7 @@ int main()
 #endif
         switch (count) {
         case 0:
-            updateTurrets();
+            
             break;
         case 1:
             updateChopper();
@@ -99,10 +106,11 @@ int main()
         case 2:
             break;
         }
+        updateBeams();        
         count++;
         if (count == 3) count = 0;
         //debugScroll();
     } while (1);
-
+#endif
     return result;
 }
