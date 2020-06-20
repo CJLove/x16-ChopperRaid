@@ -15,9 +15,12 @@
 - vert_turret.piskel - Piskel file for vertical turret
 - vert_turret.png - Spritesheet for vertical turret (4 16x8 sprites, 4bpp)
 
-- tileset.piskel - Piskel file for tileset (128x64,4bpp)
+- tileset.piskel - Piskel file for level tileset (128x64,4bpp)
 - tileset.png - tileset as png file (export from Piskel)
 - tileset.tsx - Tiled tileset based on tileset.png
+
+- chartiles.piskel - Piskel file for char tileset (128x64,4bpp)
+- chartiles.png - char tileset as png file (export from Piskel)
 
 - tilemap.tmx - Tiled tilemap
 - tilemap.png - tilemap as png file (export from Tiled)

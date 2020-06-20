@@ -42,7 +42,7 @@ int screenConfig(uint8_t opts)
     // Layer 1 - overlay
     VERA.layer1.config = MAP_WIDTH_128 | MAP_HEIGHT_64 | LAYER_CONFIG_4BPP;
     VERA.layer1.mapbase = MAP_BASE_ADDR(LAYER1_MAP_BASE);
-    VERA.layer1.tilebase = TILE_BASE_ADDR(TILESET_BASE) | TILE_WIDTH_8 | TILE_HEIGHT_8;
+    VERA.layer1.tilebase = TILE_BASE_ADDR(CHARS_BASE) | TILE_WIDTH_8 | TILE_HEIGHT_8;
     VERA.layer1.hscroll = 0;
     VERA.layer1.vscroll = 0;
 
@@ -124,7 +124,6 @@ void getTiles(uint8_t x, uint8_t y)
 {
     // Access tile metadata from RAM bank 1
     int i = 0;
-    uint8_t *layer = (uint8_t*)0xa000;
     uint16_t idx = y*MAP_WIDTH + x;
     // Switch to bank 1
     VIA1.pra = 1;

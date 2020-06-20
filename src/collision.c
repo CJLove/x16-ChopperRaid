@@ -21,11 +21,15 @@ struct Metadata_t {
 
 static struct Metadata_t *meta = (struct Metadata_t *) 0xa000;
 
-#define TILE_BLANK 32
-#define TILE_PAD1 80
-#define TILE_PAD2 96
-#define TILE_KEY  119
-#define TILE_TOKEN_MAX  127
+#define TILE_BLANK      32
+#define TILE_PAD1       80
+#define TILE_PAD2       96
+#define TILE_FUEL       0
+#define TILE_AMMO       1
+#define TILE_JAMMER     2
+#define TILE_KEY        3
+#define TILE_TOKEN_MIN  4
+#define TILE_TOKEN_MAX  19
 
 int okToLand()
 {
@@ -78,7 +82,9 @@ void handleSpecialTile(uint8_t tx, uint8_t ty, uint8_t tile)
 {
     // Display the special tile in the heads up display
     setBase(LAYER1_MAP_BASE);
-    setTile(30+(tile - TILE_KEY),0,tile,0);
+    if (tile >= TILE_TOKEN_MIN) {
+        setTile(24+(tile - TILE_TOKEN_MIN),0,tile,0);
+    }
 
     // Remove the tile from the tilemap and meta tilemap
     setBase(LAYER0_MAP_BASE);
@@ -104,7 +110,7 @@ int checkCoarseCollision()
             // Handle any "special" tiles in tiles[3][x] which get picked up by the chopper
             // Do this only if chopper.partialY >= 4)            
             uint8_t tile = tiles[3][i];
-            if (tile >= TILE_KEY && tile <= TILE_TOKEN_MAX) {
+            if (tile <= TILE_TOKEN_MAX) {
 #if !defined(UNIT_TEST)
                 handleSpecialTile(chopper.tx + i,chopper.ty + 3,tile);
 #endif          
@@ -202,8 +208,8 @@ int checkFineCollision()
     for (y = 0; y < yLimit; y++) {
         for (x = 0; x < xLimit; x++) {
             if (compareSpriteToTile(tiles[y][x], idx, x, y, chopper.partialY)) {
-#if defined(UNIT_TEST)                
-                printf("Collision for x=%d y=%d idx=%d tile=%d\n",x,y,idx,tiles[y][x]);
+#if defined(UNIT_TEST) || defined(DEBUG_CHOPPER)               
+                printf("collision gx=%d gy=%d tx=%d ty=%d idx=%d tile=%d\n",x,y,chopper.tx,chopper.ty,idx,tiles[y][x]);
 #endif
 #if defined(DEBUG_CHOPPER)
                 setTile(31,7,24,0);

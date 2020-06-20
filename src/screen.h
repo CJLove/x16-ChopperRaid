@@ -9,6 +9,7 @@
 
 #define LAYER0_MAP_BASE     0x0000
 #define LAYER1_MAP_BASE     0x4000
+#define CHARS_BASE          0x8000
 #define TILESET_BASE        0x10000
 #define SPRITES_BASE        0x1c000
 

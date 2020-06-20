@@ -96,7 +96,7 @@ int testCoarseSpecial()
     for (x = 0; x < 7; x++) {
         tiles[3][x] = 68;
     }
-    tiles[3][3] = 119;  // "key"
+    tiles[3][3] = 3;  // "key"
     chopper.partialY = 4;
 
     result = checkCoarseCollision();
@@ -674,7 +674,7 @@ int testChopperCenter()
     chopper.ty = 0;
     chopper.partialX = 0;
     chopper.partialY = 0;  
-
+#if 1
     clearTiles();
     tiles[0][0] = 71;
     result = checkFineCollision();
@@ -698,12 +698,12 @@ int testChopperCenter()
     tiles[0][0] = 69;   // Expect collision for x=0,y=0
     result = checkFineCollision();
     EXPECT_EQ(1,result);            
-
+#endif
     clearTiles();
     tiles[1][0] = 64;
     result = checkFineCollision();
     EXPECT_EQ(0,result);
-
+#if 1
     tiles[1][5] = 64;
     result = checkFineCollision();
     EXPECT_EQ(0,result);       
@@ -731,7 +731,7 @@ int testChopperCenter()
     // Setting yOffset to 7
     chopper.partialY = 7;
     clearTiles();
-
+#endif
 
     TEST_COMPLETE()
 }
@@ -763,10 +763,10 @@ int main()
     // Debugging: dump a specific tile's bitmap
     //dumpTile(70);
     // Debugging: dump a specific sprite's bitmap
-    //dumpSprite(8);
-
+    dumpSprite(16);
+    dumpTile(64);
+#if 1
     registerTestModule(testCoarseSpecial,"Coarse special tiles");
-#if 0
     registerTestModule(testLandFarLeft,"Land full left");
     registerTestModule(testLandLeft,"Land left");
     registerTestModule(testLandCenter,"Land center");
@@ -774,7 +774,8 @@ int main()
     registerTestModule(testLandFullRight,"Land full right");
     registerTestModule(testChopperFarLeft,"Chopper full left");
     registerTestModule(testChopperLeft,"Chopper left");
+#endif    
     registerTestModule(testChopperCenter,"Chopper center");
-#endif
+
     return x16testmain(TEST_EXIT);
 }

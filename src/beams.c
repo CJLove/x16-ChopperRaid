@@ -32,11 +32,11 @@
 #define TILE_QUAD_LR 89
 
 // Tiles for identifying location of dual beams
-#define TILE_DUAL_L 113
-#define TILE_DUAL_R 114
+#define TILE_DUAL_L 35
+#define TILE_DUAL_R 36
 
-#define TILE_DUAL_T 111
-#define TILE_DUAL_B 112
+#define TILE_DUAL_T 33
+#define TILE_DUAL_B 34
 
 #define MAX_QUAD_BEAMS 10
 #define MAX_DUAL_BEAMS 10

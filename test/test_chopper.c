@@ -42,7 +42,8 @@ int main()
             break;
         }
         count++;
-        if (count == 3) count == 0;
+
+        if (count == 3) count = 0;
     }
 
     return 0;

@@ -46,6 +46,13 @@ int loadFiles()
         printf("  failed to load tiles\n");
         return 0;
     }
+    result = vload_host("chartile.bin",CHARS_BASE);
+    if (result)
+        printf("  load char tiles\n");
+    else {
+        printf("  failed to load char tiles\n");
+        return 0;
+    }
 
     // Load sprites
     result = vload_host("sprites.bin",SPRITES_BASE);
