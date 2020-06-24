@@ -1,6 +1,7 @@
 #include "chopper.h"
 #include "keys.h"
 #include "screen.h"
+#include "hud.h"
 #include <conio.h>
 #include <cx16.h>
 #include <joystick.h>
@@ -28,6 +29,10 @@ int main()
     loadTilemap();
 
     initChopper(50, 50);
+    // If not debugging chopper movement then enable the HUD
+#if !defined(DEBUG_CHOPPER)
+    displayStatic();
+#endif    
 
     while (1) {
         waitvsync();

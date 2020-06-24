@@ -5,11 +5,11 @@ LIBRARIES := -L ../libX16/lib -L ../libX16Test/lib
 INCLUDES := -I ../libX16/include -I ../libX16Test/include -I ../src
 
 SRC = \
-	../src/chopper.c ../src/loader.c ../src/keys.c ../src/screen.c ../src/collision.c ../src/turret.c ../src/beams.c ../src/door.c
+	../src/chopper.c ../src/loader.c ../src/keys.c ../src/screen.c ../src/collision.c ../src/turret.c ../src/beams.c ../src/door.c ../src/hud.c
 
 # -DDEBUG_CHOPPER=1
 test_chopper: test_chopper.c $(SRC)
-	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -DDEBUG_CHOPPER=1 -Oi -o test_chopper.prg test_chopper.c $(SRC) libX16.lib cx16.lib
+	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -Oi -o test_chopper.prg test_chopper.c $(SRC) libX16.lib cx16.lib
 
 test_sprites: test_sprites.c $(SRC)
 	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -Oi -o test_sprites.prg test_sprites.c $(SRC) libX16.lib cx16.lib
@@ -28,8 +28,12 @@ test_turrets: test_turrets.c $(SRC)
 test_beams: test_beams.c $(SRC)
 	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -Oi -o test_beams.prg test_beams.c $(SRC) libX16.lib cx16.lib	
 
+# -DDEBUG_DOORS=1
 test_door: test_door.c $(SRC)
-	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -DDEBUG_DOORS=1 -Oi -o test_door.prg test_door.c $(SRC) libX16.lib cx16.lib	
+	cl65 -t cx16 $(INCLUDES) $(LIBRARIES)  -Oi -o test_door.prg test_door.c $(SRC) libX16.lib cx16.lib	
+
+test_hud: test_hud.c $(SRC)
+	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -Oi -o test_hud.prg test_hud.c $(SRC) libX16.lib cx16.lib	
 
 test_collision: test_collision.c $(SRC)
 	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -DUNIT_TEST=1 -Oi -o test_collision.prg test_collision.c $(SRC) libX16.lib libX16Test.lib cx16.lib

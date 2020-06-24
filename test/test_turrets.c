@@ -7,6 +7,7 @@
 #include "screen.h"
 #include "keys.h"
 #include "turret.h"
+#include "hud.h"
 #include "load.h"
 
 // Test application which displays all tiles
@@ -58,37 +59,12 @@ int main()
     initChopper(50, 50);    
     result = initTurrets();
 
-
-//    vera_sprites_enable(1);
-
+#if !defined(DEBUG_TURRETS)
+    displayStatic();
+#endif    
 
     do {
         waitvsync();
-#if 0
-        key = inputHandler();
-        if (key & KEY_RIGHT) {
-            if (chopper.hscroll <= 700) {
-                chopper.hscroll += 4;
-                VERA.layer0.hscroll = chopper.hscroll;
-            }
-        } else if (key & KEY_LEFT) {
-            if (chopper.hscroll >= 4) {
-                chopper.hscroll -= 4;
-                VERA.layer0.hscroll = chopper.hscroll;
-            }
-        }
-        if (key & KEY_UP) {
-            if (chopper.vscroll >= 4) {
-                chopper.vscroll -= 4;
-                VERA.layer0.vscroll = chopper.vscroll;
-            }
-        } else if (key & KEY_DOWN) {
-            if (chopper.vscroll <= 312) {
-                chopper.vscroll += 4;
-                VERA.layer0.vscroll = chopper.vscroll;
-            }
-        }
-#endif
         switch (count) {
         case 0:
             updateTurrets();

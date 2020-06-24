@@ -1,6 +1,7 @@
 #include "chopper.h"
 #include "screen.h"
 #include "collision.h"
+#include "hud.h"
 #include <stdio.h>
 
 struct TileMetadata_t {
@@ -80,18 +81,41 @@ int okToLand()
 
 void handleSpecialTile(uint8_t tx, uint8_t ty, uint8_t tile)
 {
-    // Display the special tile in the heads up display
-    setBase(LAYER1_MAP_BASE);
-    if (tile >= TILE_TOKEN_MIN) {
-        setTile(24+(tile - TILE_TOKEN_MIN),0,tile,0);
+#if !defined(DEBUG_CHOPPER)
+    switch (tile) {
+    case TILE_FUEL:
+        // If less than quarter of fuel used then top-off fuel.
+        // Otherwise add a container's worth of fuel
+        if (chopper.fuel >= 3*FUEL_CONTAINER) {
+            chopper.fuel = FUEL_FULL;
+        } else {
+            chopper.fuel += FUEL_CONTAINER;
+        }
+        displayFuel(chopper.fuel);
+        break;
+    case TILE_AMMO:
+        chopper.ammo = AMMO_FULL;
+        displayAmmo(chopper.ammo);
+        break;
+    case TILE_JAMMER:
+        chopper.jammers++;
+        displayJammers(chopper.jammers);
+        break;
+    case TILE_KEY:
+        chopper.keys++;
+        displayKeys(chopper.keys);
+        break;
+    default:
+        chopper.units |= (1 << (tile - TILE_TOKEN_MIN));
+        displayToken(tile);
+        break;
     }
+#endif
 
     // Remove the tile from the tilemap and meta tilemap
     setBase(LAYER0_MAP_BASE);
     setTile(tx,ty,TILE_BLANK,0);
     setMetaTile(tx,ty,TILE_BLANK);
-
-
 }
 
 int checkCoarseCollision()
@@ -131,11 +155,11 @@ int checkCoarseCollision()
             }
         }
     }
-#if !defined(UNIT_TEST)    
-    setBase(LAYER1_MAP_BASE);
-    setTile(31,6,TILE_BLANK,0);
-    setTile(31,7,TILE_BLANK,0);
-#endif    
+// #if !defined(UNIT_TEST)    
+//     setBase(LAYER1_MAP_BASE);
+//     setTile(31,6,TILE_BLANK,0);
+//     setTile(31,7,TILE_BLANK,0);
+// #endif    
     return 0;
 }
 

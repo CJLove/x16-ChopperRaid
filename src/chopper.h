@@ -17,6 +17,11 @@
 #define CHOPPER_EXPLODE_2   0x1e800
 #define CHOPPER_EXPLODE_3   0x1ec00
 
+// Chopper resources
+#define FUEL_FULL   65535U
+#define FUEL_CONTAINER  16383U
+#define AMMO_FULL   33
+
 
 struct chopper_t {
     uint16_t hscroll;
@@ -33,6 +38,13 @@ struct chopper_t {
     uint8_t idx;
     uint8_t ticks;
     uint8_t tiltCount;
+
+    // Game state for the chopper
+    uint8_t keys;
+    uint8_t jammers;
+    uint16_t units;
+    uint16_t fuel;
+    uint16_t ammo;
 };
 
 extern struct chopper_t chopper;

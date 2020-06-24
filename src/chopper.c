@@ -2,6 +2,7 @@
 #include "collision.h"
 #include "keys.h"
 #include "screen.h"
+#include "hud.h"
 #include "vera.h"
 #include <cx16.h>
 #include <joystick.h>
@@ -17,6 +18,8 @@ struct chopper_t chopper;
 
 #define MAX_SEQUENCE 6
 #define SEQ_LENGTH 4
+
+
 
 static const int gravityDeltaY = 1;  // 1;
 static const int horizDeltaX = 4;
@@ -114,6 +117,12 @@ void initChopper(uint16_t x, uint16_t y)
     chopper.sequence = CHOPPER_CENTER;
     chopper.direction = 0;
 
+    chopper.keys = 0;
+    chopper.jammers = 0;
+    chopper.units = 0;
+    chopper.fuel = FUEL_FULL;
+    chopper.ammo = AMMO_FULL;    
+
     saveChopper();
 
     // Initial sprite attribute settings
@@ -193,6 +202,7 @@ void updateChopper()
 {
     int16_t deltaY = 0;
     int16_t deltaX = 0;
+    int8_t  deltaFuel = 8;
     int8_t action = inputHandler();
     chopper.ticks++;
 
@@ -201,24 +211,29 @@ void updateChopper()
             case CHOPPER_FULL_LEFT:
                 chopper.sequence = CHOPPER_LEFT;
                 chopper.direction = 1;
+                deltaFuel = 16;
                 break;
             case CHOPPER_LEFT:
                 chopper.sequence = CHOPPER_CENTER;
                 chopper.direction = 0;
+                deltaFuel = 12;
                 break;
             case CHOPPER_CENTER:
                 chopper.sequence = CHOPPER_RIGHT;
                 chopper.direction = 0;
+                deltaFuel = 8;
                 break;
             case CHOPPER_RIGHT:
                 chopper.sequence = CHOPPER_FULL_RIGHT;
                 chopper.direction = 0;
                 chopper.tiltCount = 13;
+                deltaFuel = 12;
                 break;
             case CHOPPER_FULL_RIGHT:
                 chopper.direction = 0;
                 chopper.tiltCount = 13;
                 deltaX = horizDeltaX;
+                deltaFuel = 16;
                 break;
             default:
                 break;
@@ -271,7 +286,8 @@ void updateChopper()
             if (chopper.sequence == CHOPPER_FULL_LEFT)
                 chopper.sequence = CHOPPER_LEFT;
         }
-        deltaY = -1;
+        deltaFuel = 12;
+        deltaY = -2;
     }
     else if (action & KEY_DOWN) {
         if (action == KEY_DOWN) {
@@ -368,6 +384,10 @@ void updateChopper()
     VERA.data0 = SPRITE_Y_L(chopper.y);
     VERA.data0 = SPRITE_Y_H(chopper.y);
     VERA.data0 = SPRITE_LAYER1 | chopper.direction;
+
+    chopper.fuel -= deltaFuel;
+
+    displayFuel(chopper.fuel);
 #if defined(DEBUG_CHOPPER)
     debugChopper();
 #endif
