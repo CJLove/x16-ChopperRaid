@@ -2,6 +2,10 @@
 #include "keys.h"
 #include "screen.h"
 #include "hud.h"
+#include "bomb.h"
+#include "turret.h"
+#include "door.h"
+#include "beams.h"
 #include <conio.h>
 #include <cx16.h>
 #include <joystick.h>
@@ -29,9 +33,17 @@ int main()
     loadTilemap();
 
     initChopper(50, 50);
+
+
+
     // If not debugging chopper movement then enable the HUD
 #if !defined(DEBUG_CHOPPER)
     displayStatic();
+
+    // Enable other elements
+    initDoors();
+    initTurrets();
+    initBeams();    
 #endif    
 
     while (1) {
@@ -40,10 +52,16 @@ int main()
         switch (count) {
         case 0:
             updateChopper();
+            updateBombs();
             break;
         case 1:
+#if!defined(DEBUG_CHOPPER)        
+            updateTurrets();
+            updateBeams();
+#endif            
             break;
         case 2:
+            checkDoors();
             break;
         }
         count++;

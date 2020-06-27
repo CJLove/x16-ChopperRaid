@@ -5,9 +5,10 @@ LIBRARIES := -L ../libX16/lib -L ../libX16Test/lib
 INCLUDES := -I ../libX16/include -I ../libX16Test/include -I ../src
 
 SRC = \
-	../src/chopper.c ../src/loader.c ../src/keys.c ../src/screen.c ../src/collision.c ../src/turret.c ../src/beams.c ../src/door.c ../src/hud.c
+	../src/chopper.c ../src/loader.c ../src/keys.c ../src/screen.c ../src/collision.c ../src/turret.c ../src/beams.c ../src/door.c ../src/hud.c ../src/bomb.c
 
 # -DDEBUG_CHOPPER=1
+# -DDEBUG_BOMBS=1
 test_chopper: test_chopper.c $(SRC)
 	cl65 -t cx16 $(INCLUDES) $(LIBRARIES) -Oi -o test_chopper.prg test_chopper.c $(SRC) libX16.lib cx16.lib
 

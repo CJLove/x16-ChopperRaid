@@ -3,6 +3,7 @@
 #include "keys.h"
 #include "screen.h"
 #include "hud.h"
+#include "bomb.h"
 #include "vera.h"
 #include <cx16.h>
 #include <joystick.h>
@@ -135,6 +136,7 @@ void initChopper(uint16_t x, uint16_t y)
     VERA.data0 = SPRITE_LAYER1;                            // Attr6
     VERA.data0 = SPRITE_WIDTH_64 | SPRITE_HEIGHT_32;       // Attr7
 
+    initBombs();
     vera_sprites_enable(1);
 }
 
@@ -151,31 +153,28 @@ static void debugChopper()
     for (x = 0; x < len; x++) {
         setTile(x, 0, buffer[x], 0);
     }
-    len = sprintf(buffer, "%c%c:%2d %c%c:%2d", 20, 24, chopper.tx, 20, 25, chopper.ty);
+    len = sprintf(buffer, "%c%c:%2d %c%c:%2d %c:%c", 20, 24, chopper.tx, 20, 25, chopper.ty,12,(chopper.landed ? 24:32));
+    setTile(16,1,3,0); setTile(17,1,58,0);
+    setTile(20,1,6,0); setTile(21,1,58,0);
     for (x = 0; x < len; x++) {
         setTile(x, 1, buffer[x], 0);
     }
-    setBase(LAYER1_MAP_BASE);
-    setTile(29, 1, 48, 0);  // Row 0
-    setTile(29, 2, 49, 0);  // Row 1
-    setTile(29, 3, 50, 0);  // Row 2
-    setTile(29, 4, 51, 0);  // Row 4
-    setTile(29, 5, 12, 0);  // Landing indicator
-    setTile(31, 5, (chopper.landed ? 24 : 32), 0);
-    setTile(29, 6, 3, 0);  // Coarse collision detect
-    setTile(29, 7, 6, 0);  // Fine collision detect
-    for (x = 0; x < limit; x++) {
-        setTile(30 + x, 1, tiles[0][x], 0);
-        setTile(30 + x, 2, tiles[1][x], 0);
-        setTile(30 + x, 3, tiles[2][x], 0);
-        setTile(30 + x, 4, tiles[3][x], 0);
-    }
-    if (chopper.partialX == 0) {
-        setTile(30 + 6, 1, 32, 0);
-        setTile(30 + 6, 2, 32, 0);
-        setTile(30 + 6, 3, 32, 0);
-        setTile(30 + 6, 4, 32, 0);
-    }
+    // setTile(29, 1, 48, 0);  // Row 0
+    // setTile(29, 2, 49, 0);  // Row 1
+    // setTile(29, 3, 50, 0);  // Row 2
+    // setTile(29, 4, 51, 0);  // Row 4
+    // for (x = 0; x < limit; x++) {
+    //     setTile(30 + x, 1, tiles[0][x], 0);
+    //     setTile(30 + x, 2, tiles[1][x], 0);
+    //     setTile(30 + x, 3, tiles[2][x], 0);
+    //     setTile(30 + x, 4, tiles[3][x], 0);
+    // }
+    // if (chopper.partialX == 0) {
+    //     setTile(30 + 6, 1, 32, 0);
+    //     setTile(30 + 6, 2, 32, 0);
+    //     setTile(30 + 6, 3, 32, 0);
+    //     setTile(30 + 6, 4, 32, 0);
+    // }
 }
 #endif
 
@@ -297,6 +296,10 @@ void updateChopper()
                 chopper.sequence = CHOPPER_LEFT;
         }
         deltaY += 1;
+    }
+    if (action & KEY_A) {
+        // Drop a bomb
+        dropBomb();
     }
 
     if (deltaX > 0) {

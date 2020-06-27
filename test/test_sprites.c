@@ -2,6 +2,7 @@
 #include "chopper.h"
 #include "screen.h"
 #include "turret.h"
+#include "bomb.h"
 #include "vera.h"
 #include <conio.h>
 #include <cx16.h>
@@ -329,6 +330,32 @@ int main()
     VERA.data0 = SPRITE_Y_H(y);                      // Attr5
     VERA.data0 = SPRITE_LAYER1;                      // Attr6
     VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_8;   // Attr7
+
+
+    x += 16;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(0x1f260), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(0x1f260);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                      // Attr2
+    VERA.data0 = SPRITE_X_H(x);                      // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                      // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                      // Attr5
+    VERA.data0 = SPRITE_LAYER1;                      // Attr6
+    VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_8;   // Attr7
+
+    x += 16;
+    sprite += 8;
+
+    vpoke(SPRITE_ADDR_L(0x1f280), sprite);  // Attr0
+    VERA.data0 = SPRITE_ADDR_H(0x1f280);    // Attr1
+    VERA.data0 = SPRITE_X_L(x);                      // Attr2
+    VERA.data0 = SPRITE_X_H(x);                      // Attr3
+    VERA.data0 = SPRITE_Y_L(y);                      // Attr4
+    VERA.data0 = SPRITE_Y_H(y);                      // Attr5
+    VERA.data0 = SPRITE_LAYER1;                      // Attr6
+    VERA.data0 = SPRITE_WIDTH_8 | SPRITE_HEIGHT_8;   // Attr7
+
 
     // Enable sprites
     vera_sprites_enable(1);

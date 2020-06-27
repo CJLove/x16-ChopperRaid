@@ -149,17 +149,19 @@ int checkCoarseCollision()
                 // Return 1 and indicate that "fine" collision detection is needed
 #if defined(DEBUG_CHOPPER)                
                 setBase(LAYER1_MAP_BASE);
-                setTile(31,6,24,0);
+                setTile(18,1,24,0);
 #endif                
                 return 1;
             }
         }
     }
-// #if !defined(UNIT_TEST)    
-//     setBase(LAYER1_MAP_BASE);
-//     setTile(31,6,TILE_BLANK,0);
-//     setTile(31,7,TILE_BLANK,0);
-// #endif    
+#if !defined(UNIT_TEST)    
+#if defined(DEBUG_CHOPPER)
+    setBase(LAYER1_MAP_BASE);
+    setTile(18,1,TILE_BLANK,0);
+    setTile(22,1,TILE_BLANK,0);
+#endif    
+#endif    
     return 0;
 }
 
@@ -220,7 +222,7 @@ int checkFineCollision()
     default:
         // Unable to determine chopper bitmap
 #if defined(DEBUG_CHOPPER)        
-        setTile(31,7,24,0); // Set "Fine indicator"
+        setTile(22,1,24,0); // Set "Fine indicator"
 #endif        
         return 1; 
     }
@@ -232,18 +234,18 @@ int checkFineCollision()
     for (y = 0; y < yLimit; y++) {
         for (x = 0; x < xLimit; x++) {
             if (compareSpriteToTile(tiles[y][x], idx, x, y, chopper.partialY)) {
-#if defined(UNIT_TEST) || defined(DEBUG_CHOPPER)               
-                printf("collision gx=%d gy=%d tx=%d ty=%d idx=%d tile=%d\n",x,y,chopper.tx,chopper.ty,idx,tiles[y][x]);
-#endif
+// #if defined(UNIT_TEST) || defined(DEBUG_CHOPPER)               
+//                 printf("collision gx=%d gy=%d tx=%d ty=%d idx=%d tile=%d\n",x,y,chopper.tx,chopper.ty,idx,tiles[y][x]);
+// #endif
 #if defined(DEBUG_CHOPPER)
-                setTile(31,7,24,0);
+                setTile(22,1,24,0);
 #endif
                 return 1;
             }
         }
     }
 #if defined(DEBUG_CHOPPER)    
-    setTile(31,7,32,0);
+    setTile(22,1,32,0);
 #endif    
     return 0;
 }
